@@ -11,6 +11,7 @@ import java.io.Serializable;
 public class SignUp implements Serializable{
 
     private UserName uName;
+    private Long id;
 
     private String username;
     private String password;
@@ -25,9 +26,10 @@ public class SignUp implements Serializable{
     public SignUp() {
     }
 
-    public SignUp(UserName uName, String username, String password, int age, String email, String gender, DateOfBirth dob) {
+    public SignUp(Long id,UserName uName, String username, String password, int age, String email, String gender, DateOfBirth dob) {
 
         this.uName = uName;
+        this.id = id;
 
         this.username = username;
         this.password = password;
@@ -42,6 +44,7 @@ public class SignUp implements Serializable{
     public UserName getUName() {
         return uName;
     }
+    public Long getId() { return id; }
 
     public String getUsername() {
         return username;
@@ -68,6 +71,7 @@ public class SignUp implements Serializable{
     public SignUp(Builder builder)
     {
 
+        this.id = builder.id;
         this.uName = builder.uName;
 
         this.username = builder.username;
@@ -82,6 +86,7 @@ public class SignUp implements Serializable{
 
     public static class Builder
     {
+        private Long id;
         private UserName uName;
 
         private String username;
@@ -93,6 +98,10 @@ public class SignUp implements Serializable{
         private DateOfBirth dob;
 
 
+        public Builder id(Long value){
+            this.id = value;
+            return this;
+        }
         public Builder uName(UserName value){
             this.uName = value;
             return this;
@@ -129,6 +138,7 @@ public class SignUp implements Serializable{
         }
 
         public Builder copy(SignUp value) {
+            this.id = value.id;
 
             this.uName = value.uName;
 
@@ -157,6 +167,8 @@ public class SignUp implements Serializable{
 
         if (getAge() != signUp.getAge()) return false;
         if (uName != null ? !uName.equals(signUp.uName) : signUp.uName != null) return false;
+        if (getId() != null ? !getId().equals(signUp.getId()) : signUp.getId() != null)
+            return false;
         if (getUsername() != null ? !getUsername().equals(signUp.getUsername()) : signUp.getUsername() != null)
             return false;
         if (getPassword() != null ? !getPassword().equals(signUp.getPassword()) : signUp.getPassword() != null)
@@ -165,13 +177,14 @@ public class SignUp implements Serializable{
             return false;
         if (getGender() != null ? !getGender().equals(signUp.getGender()) : signUp.getGender() != null)
             return false;
-        return !(getDob() != null ? !getDob().equals(signUp.getDob()) : signUp.getDob() != null);
+        return getDob() != null ? getDob().equals(signUp.getDob()) : signUp.getDob() == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = uName != null ? uName.hashCode() : 0;
+        result = 31 * result + (getId() != null ? getId().hashCode() : 0);
         result = 31 * result + (getUsername() != null ? getUsername().hashCode() : 0);
         result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
         result = 31 * result + getAge();

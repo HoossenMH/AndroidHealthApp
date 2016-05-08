@@ -9,6 +9,7 @@ import java.io.Serializable;
  */
 public class MuscleGain extends Exercise implements Serializable {
 
+    private Long id;
     private int chestsAmount;
     private int benchPressAmount;
     private int inclineBenchPressAmount;
@@ -18,12 +19,16 @@ public class MuscleGain extends Exercise implements Serializable {
     public MuscleGain() {
     }
 
-    public MuscleGain(int chestsAmount, int benchPressAmount, int inclineBenchPressAmount) {
+    public MuscleGain(Long id,int chestsAmount, int benchPressAmount, int inclineBenchPressAmount) {
+        this.id = id;
         this.chestsAmount = chestsAmount;
         this.benchPressAmount = benchPressAmount;
         this.inclineBenchPressAmount = inclineBenchPressAmount;
     }
 
+    public Long getId() {
+        return id;
+    }
     public int getBenchPressAmount() {
         return benchPressAmount;
     }
@@ -43,6 +48,7 @@ public class MuscleGain extends Exercise implements Serializable {
 
     public MuscleGain(Builder builder)
     {
+        this.id = builder.id;
         this.chestsAmount = builder.chestsAmount;
         this.benchPressAmount = builder.benchPressAmount;
         this.inclineBenchPressAmount = builder.inclineBenchPressAmount;
@@ -50,11 +56,15 @@ public class MuscleGain extends Exercise implements Serializable {
 
     public static class Builder
     {
+        private long id;
         private int chestsAmount;
         private int benchPressAmount;
         private int inclineBenchPressAmount;
 
-
+        public Builder id(Long value){
+            this.id = value;
+            return this;
+        }
         public Builder chestsAmount(int value){
             this.chestsAmount = value;
             return this;
@@ -69,6 +79,7 @@ public class MuscleGain extends Exercise implements Serializable {
         }
 
         public Builder copy(MuscleGain value) {
+            this.id = value.id;
             this.chestsAmount = value.chestsAmount;
             this.benchPressAmount = value.benchPressAmount;
             this.inclineBenchPressAmount = value.inclineBenchPressAmount;
@@ -89,13 +100,15 @@ public class MuscleGain extends Exercise implements Serializable {
 
         if (getChestsAmount() != that.getChestsAmount()) return false;
         if (getBenchPressAmount() != that.getBenchPressAmount()) return false;
-        return getInclineBenchPressAmount() == that.getInclineBenchPressAmount();
+        if (getInclineBenchPressAmount() != that.getInclineBenchPressAmount()) return false;
+        return getId() != null ? getId().equals(that.getId()) : that.getId() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getChestsAmount();
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + getChestsAmount();
         result = 31 * result + getBenchPressAmount();
         result = 31 * result + getInclineBenchPressAmount();
         return result;

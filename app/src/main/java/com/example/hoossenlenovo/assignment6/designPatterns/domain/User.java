@@ -9,7 +9,8 @@ import java.io.Serializable;
  */
 public class User implements CloneObject, Serializable
 {
-    private String id;
+    private Long id;
+    private String userId;
     private int age;
     private UserName uName;
 
@@ -20,9 +21,9 @@ public class User implements CloneObject, Serializable
 
     }
 
-    public User(String id, int age, UserName uName)
-    {
+    public User(Long id, String userId, int age, UserName uName) {
         this.id = id;
+        this.userId = userId;
         this.age = age;
         this.uName = uName;
     }
@@ -31,7 +32,8 @@ public class User implements CloneObject, Serializable
     public int getAge() {
         return age;
     }
-    public String getId() {
+    public String getUserId() {   return userId;  }
+    public Long getId() {
         return id;
     }
     public UserName getUserName() {
@@ -41,7 +43,7 @@ public class User implements CloneObject, Serializable
     @Override
     public CloneObject createCopy()
     {
-        return new User(id,age,uName);
+        return new User(id,userId,age,uName);
     }
 
 
@@ -49,18 +51,24 @@ public class User implements CloneObject, Serializable
     public User(Builder builder)
     {
         this.id = builder.id;
+        this.userId = builder.userId;
         this.age = builder.age;
         this.uName = builder.uName;
     }
 
     public static class Builder
     {
-        private String id;
+        private Long id;
+        private String userId;
         private int age;
-        private UserName uName;
+        public UserName uName;
 
-        public Builder id(String value){
+        public Builder id(Long value){
             this.id = value;
+            return this;
+        }
+        public Builder userId(String value){
+            this.userId = value;
             return this;
         }
         public Builder age(int value){
@@ -74,6 +82,7 @@ public class User implements CloneObject, Serializable
 
         public Builder copy(User value) {
             this.id = value.id;
+            this.userId = value.userId;
             this.age = value.age;
             this.uName = value.uName;
             return this;
@@ -90,14 +99,22 @@ public class User implements CloneObject, Serializable
         if (this == o) return true;
         if (!(o instanceof User)) return false;
 
-        User role = (User) o;
+        User user = (User) o;
 
-        if (getId() != null ? !getId().equals(role.getId()) : role.getId() != null) return false;
-        if (getAge() != 0 ?  getAge() != role.getAge() : role.getAge() != 0)
+        if (getAge() != user.getAge()) return false;
+        if (getId() != null ? !getId().equals(user.getId()) : user.getId() != null) return false;
+        if (getUserId() != null ? !getUserId().equals(user.getUserId()) : user.getUserId() != null)
             return false;
-        return !(getUserName() != null ? !getUserName().equals(role.getUserName()) : role.getUserName() != null);
+        return uName != null ? uName.equals(user.uName) : user.uName == null;
 
     }
 
-
+    @Override
+    public int hashCode() {
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + (getUserId() != null ? getUserId().hashCode() : 0);
+        result = 31 * result + getAge();
+        result = 31 * result + (uName != null ? uName.hashCode() : 0);
+        return result;
+    }
 }

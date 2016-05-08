@@ -7,6 +7,7 @@ import java.io.Serializable;
  */
 public class DateOfBirth implements Serializable {
 
+    private Long id;
     private int day;
     private String month;
     private int year;
@@ -16,12 +17,16 @@ public class DateOfBirth implements Serializable {
     public DateOfBirth() {
     }
 
-    public DateOfBirth(int day, String month, int year) {
+    public DateOfBirth(Long id,int day, String month, int year) {
+        this.id = id;
         this.day = day;
         this.month = month;
         this.year = year;
     }
 
+    public Long getId() {
+        return id;
+    }
     public int getDay() {
         return day;
     }
@@ -35,6 +40,7 @@ public class DateOfBirth implements Serializable {
 
     public DateOfBirth(Builder builder)
     {
+        this.id = builder.id;
         this.day = builder.day;
         this.month = builder.month;
         this.year = builder.year;
@@ -42,11 +48,16 @@ public class DateOfBirth implements Serializable {
 
     public static class Builder
     {
+        private Long id;
         private int day;
         private String month;
         private int year;
 
 
+        public Builder id(Long value){
+            this.id = value;
+            return this;
+        }
         public Builder day(int value){
             this.day = value;
             return this;
@@ -61,6 +72,7 @@ public class DateOfBirth implements Serializable {
         }
 
         public Builder copy(DateOfBirth value) {
+            this.id = value.id;
             this.day = value.day;
             this.month = value.month;
             this.year = value.year;
@@ -73,6 +85,7 @@ public class DateOfBirth implements Serializable {
         }
     }
 
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -82,13 +95,15 @@ public class DateOfBirth implements Serializable {
 
         if (getDay() != that.getDay()) return false;
         if (getYear() != that.getYear()) return false;
-        return !(getMonth() != null ? !getMonth().equals(that.getMonth()) : that.getMonth() != null);
+        if (getId() != null ? !getId().equals(that.getId()) : that.getId() != null) return false;
+        return getMonth() != null ? getMonth().equals(that.getMonth()) : that.getMonth() == null;
 
     }
 
     @Override
     public int hashCode() {
-        int result = getDay();
+        int result = getId() != null ? getId().hashCode() : 0;
+        result = 31 * result + getDay();
         result = 31 * result + (getMonth() != null ? getMonth().hashCode() : 0);
         result = 31 * result + getYear();
         return result;
